@@ -1,37 +1,43 @@
 #pragma once
 #include "Software.h"
+#include <deque>
+#include <string>
 
-class SoftwareOfimatica : public Software {
+class SoftwareNavegador : public Software {
 public:
     // Constructor
-    SoftwareOfimatica(const std::string& nombre, const std::string& developer,
-                      const std::string& clasificacionEdad, const std::list<std::string>& listaUsuarios, int precio,
-                      int cantidadArchivos);
+    SoftwareNavegador(const std::string& nombre, const std::string& developer,
+                      const std::string& clasificacionEdad, const std::list<std::string>& listaUsuarios, int precio);
 
-    // Getter y setter para cantidadArchivos
-    int getCantidadArchivos() const;
-    void setCantidadArchivos(int cantidadArchivos);
+    // Getter para el historial
+    std::deque<std::string> getHistorial() const;
 
-
+    // Método para agregar una página al historial
+    void agregarPaginaAlHistorial(const std::string& pagina);
 private:
-    int cantidadArchivos;
+    std::deque<std::string> historial;
 };
 
 // Implementación de los métodos inline
 
-inline SoftwareOfimatica::SoftwareOfimatica(const std::string& nombre, const std::string& developer,
+inline SoftwareNavegador::SoftwareNavegador(const std::string& nombre, const std::string& developer,
                                            const std::string& clasificacionEdad, const std::list<std::string>& listaUsuarios,
-                                           int precio, int cantidadArchivos)
-    : Software(nombre, developer, clasificacionEdad, listaUsuarios, precio), cantidadArchivos(cantidadArchivos) {
-    // Implementación del constructor de SoftwareOfimatica
+                                           int precio)
+    : Software(nombre, developer, clasificacionEdad, listaUsuarios, precio) {
+    // Implementación del constructor de SoftwareNavegador
 }
 
-inline int SoftwareOfimatica::getCantidadArchivos() const {
-    return cantidadArchivos;
+inline std::deque<std::string> SoftwareNavegador::getHistorial() const {
+    return historial;
 }
 
-inline void SoftwareOfimatica::setCantidadArchivos(int cantidadArchivos) {
-    this->cantidadArchivos = cantidadArchivos;
-}
+inline void SoftwareNavegador::agregarPaginaAlHistorial(const std::string& pagina) {
+    // Agrega la página al principio del historial
+    historial.push_front(pagina);
 
+    // Si el historial supera las 10 páginas, elimina la página más antigua
+    if (historial.size() > 10) {
+        historial.pop_back();
+    }
+}
 

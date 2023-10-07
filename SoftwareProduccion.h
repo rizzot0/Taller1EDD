@@ -1,38 +1,43 @@
 #pragma once
-#include <iostream>
-#include <list>
 #include "Software.h"
+#include <deque>
+#include <string>
 
-class SoftwareProduccion : public Software {
+class SoftwareNavegador : public Software {
 public:
-    // Constructor de SoftwareProduccion
-    SoftwareProduccion(const std::string& nombre, const std::string& developer,
-                       const std::string& clasificacionEdad, const std::list<std::string>& listaUsuarios,
-                       int precio, const std::string& tipoSolucion);
+    // Constructor
+    SoftwareNavegador(const std::string& nombre, const std::string& developer,
+                      const std::string& clasificacionEdad, const std::list<std::string>& listaUsuarios, int precio);
 
-    // Getter para el tipo de solución
-    std::string getTipoSolucion() const;
+    // Getter para el historial
+    std::deque<std::string> getHistorial() const;
 
-    // Setter para el tipo de solución
-    void setTipoSolucion(const std::string& nuevoTipoSolucion);
-
+    // Método para agregar una página al historial
+    void agregarPaginaAlHistorial(const std::string& pagina);
 private:
-    std::string tipoSolucion;  // Nuevo atributo específico para SoftwareProduccion
+    std::deque<std::string> historial;
 };
 
 // Implementación de los métodos inline
 
-inline SoftwareProduccion::SoftwareProduccion(const std::string& nombre, const std::string& developer,
-                                              const std::string& clasificacionEdad, const std::list<std::string>& listaUsuarios,
-                                              int precio, const std::string& tipoSolucion)
-    : Software(nombre, developer, clasificacionEdad, listaUsuarios, precio), tipoSolucion(tipoSolucion) {
-    // Implementación del constructor de SoftwareProduccion
+inline SoftwareNavegador::SoftwareNavegador(const std::string& nombre, const std::string& developer,
+                                           const std::string& clasificacionEdad, const std::list<std::string>& listaUsuarios,
+                                           int precio)
+    : Software(nombre, developer, clasificacionEdad, listaUsuarios, precio) {
+    // Implementación del constructor de SoftwareNavegador
 }
 
-inline std::string SoftwareProduccion::getTipoSolucion() const {
-    return tipoSolucion;
+inline std::deque<std::string> SoftwareNavegador::getHistorial() const {
+    return historial;
 }
 
-inline void SoftwareProduccion::setTipoSolucion(const std::string& nuevoTipoSolucion) {
-    tipoSolucion = nuevoTipoSolucion;
+inline void SoftwareNavegador::agregarPaginaAlHistorial(const std::string& pagina) {
+    // Agrega la página al principio del historial
+    historial.push_front(pagina);
+
+    // Si el historial supera las 10 páginas, elimina la página más antigua
+    if (historial.size() > 10) {
+        historial.pop_back();
+    }
 }
+

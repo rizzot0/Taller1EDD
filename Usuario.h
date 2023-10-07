@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector> 
 
 class Usuario {
 public:
@@ -17,17 +18,31 @@ public:
     int getEdad() const;
     void setEdad(int nuevaEdad);
 
-private:
+    // Método para agregar un rol al usuario
+    void agregarRol(const std::string& rol) {
+        roles.push_back(rol);
+    }
+
+    // Método para verificar si el usuario tiene un rol específico
+    bool tieneRol(const std::string& rol) const {
+        for (const std::string& usuarioRol : roles) {
+            if (usuarioRol == rol) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+private: 
     std::string nombreUsuario;
     std::string contrasena;
     int edad;
+    std::vector<std::string> roles; // Vector para almacenar los roles
 };
 
-// Implementación de los métodos inline
 
 inline Usuario::Usuario(const std::string& nombreUsuario, const std::string& contrasena, int edad)
     : nombreUsuario(nombreUsuario), contrasena(contrasena), edad(edad) {
-    // Implementación del constructor de Usuario
 }
 
 inline std::string Usuario::getNombreUsuario() const {
